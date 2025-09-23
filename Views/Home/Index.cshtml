@@ -1,0 +1,169 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+
+@model IEnumerable<YourApp.Models.Product>
+
+@* @model IEnumerable<YourApp.Models.Product>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.User</td>
+            </tr>
+        }
+    </tbody>
+</table> *@
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-content" style="padding-top:200px;padding-bottom:100px;">
+            <h2 id="mainTitle"></h2>
+            <p id="subTitle"></p>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-card">
+                <i class="fas fa-file-alt"></i>
+                <h3 id="Available Resources">0</h3>
+                <p>Available Resources</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3 id="Community Members">0</h3>
+                <p>Community Members</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="feature-cards">
+            <div class="feature-card">
+                <div class="icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h3>完成一份學習歷程</h3>
+                <p>做出一份學習歷程檔案</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">
+                    <i class="fas fa-upload"></i>
+                </div>
+                <h3>分享學習歷程資料</h3>
+                <p>
+                    上傳你的學習資料、筆記和技巧以幫助他人
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">
+                    <i class="fas fa-book-reader"></i>
+                </div>
+                <h3>幫助他人和自己變得更好</h3>
+                <p>你的貢獻將幫助未來的學生進入夢想的學校</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="recent-uploads">
+    <div class="container">
+        <h2 class="section-title">Recent Uploads</h2>
+        <div class="resource-grid" style="padding:10px" id="GridLayuot">
+        </div>
+        <div class="view-all">
+            <a href="browse.html" class="btn secondary">View All Resources</a>
+        </div>
+    </div>
+</section>
+<script>
+
+    var allProducts = @Html.Raw(ViewBag.ProductsJson);
+    function setup(){
+        var totaldocument = 0;
+        var username = [];
+        allProducts.forEach(product => {
+            console.log(product);
+            var file = product.File.split(",");
+			totaldocument += file.length;
+            if(!username.includes(product.User)){
+                username.push(product.User);
+            }
+		});
+		var docElement = document.getElementById("Available Resources");
+	    docElement.innerText = totaldocument;
+        var userElement = document.getElementById("Community Members");
+		userElement.innerText = username.length;
+
+       const messages = [
+              {
+                main: "📖 學習歷程，見證你的成長",
+                sub: "每一段努力，都是未來最珍貴的禮物。"
+              },
+              {
+                main: "🌟 一步一腳印，築起獨一無二的故事",
+                sub: "學習不只是分數，而是你真實的成長軌跡。"
+              },
+              {
+                main: "🚀 讓努力留下痕跡，讓夢想持續前進",
+                sub: "學習歷程，是你通往未來的最好見證。"
+              },
+              {
+                main: "✨ 你的故事，值得被看見",
+                sub: "在學習歷程中，展現屬於你的熱情與可能。"
+              },
+              {
+                main: "🌱 從今天開始，培養明天的力量",
+                sub: "每一份經驗，都是成長路上的重要篇章。"
+              }
+            ];
+
+            // 隨機挑一組
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+
+            document.getElementById("mainTitle").textContent = randomMsg.main;
+            document.getElementById("subTitle").textContent = randomMsg.sub;
+
+    }
+
+    function ClickedFilter(){
+        let html = "";
+        var counter =0;
+        allProducts.forEach(item => {
+            counter++;
+			if(counter>4) return;
+            html += `
+                <div class="resource-card">
+                    <div class="resource" data-id="${item.Id}" data-title="${item.Title}" data-desc="${item.Description}">
+                        <div class="resource-type pdf">PDF</div>
+                        <h3>${item.Title}</h3>
+                        <p class="subject" style="margin:20px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">${item.Description}</p>
+                        <div class="resource-meta">
+                            <span><i class="fas fa-user"></i> ${item.User}</span>
+                            <span><i class="fas fa-calendar"></i> ${item.Date}</span>
+                        </div>
+                        <button class="btn" onclick="toggleDialog(${item.Id})">View Resource</button>
+                    </div>
+                </div>
+            `;
+        });
+        if(html == ""){
+            html = `
+            <h2> 沒有找到相關的學習歷程資料,請從選擇條件 </h2>
+            `
+        }
+        document.getElementById("GridLayuot").innerHTML = html;
+    }
+    ClickedFilter()
+     setup()
+</script>

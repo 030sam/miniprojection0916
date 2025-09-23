@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學習歷程-線上學習平台</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="~/lib/docs.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>學習歷程-線上學習平台</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Browse">Browse Resources</a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Upload">Upload Resources</a>
+                    </li>
+                    <li>
+                        @* <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a> *@
+                        <button class=" btn nav-link text-dark" id="loginBtn">Login</button>
+                    </li>
+                    @* <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Register">Register</a>
+                    </li>
+                    @* <li class="active"><a href="index.html">Home</a></li>
+                    <li><a href="~/upload.html">Upload Resources</a></li>
+                    <li><a href="~/browse.html">Browse Resources</a></li>
+                    <li><a href="#" id="loginBtn">Login</a></li> *@
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    @RenderBody()
+    
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>學習歷程-線上學習平台</h2>
+                    @* <p style="width: 250px;">目的是為了給予一個平台讓學弟妹能夠學習學長姐製作學習歷程的地方</p> *@
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="upload.html">Upload Resources</a></li>
+                        <li><a href="browse.html">Browse Resources</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Connect With Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Exam Resources Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for login -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn primary">Login</button>
+            </form>
+            <p class="modal-footer">Don't have an account? <a href="#" id="showRegister">Register</a></p>
+        </div>
+    </div>
+
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email:</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password:</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="examStatus" name="examStatus">
+                    <label for="examStatus">I have already passed the exam</label>
+                </div>
+                <button type="submit" class="btn primary">Register</button>
+            </form>
+            <p class="modal-footer">Already have an account? <a href="#" id="showLogin">Login</a></p>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>

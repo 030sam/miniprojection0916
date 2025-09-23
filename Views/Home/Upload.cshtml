@@ -1,0 +1,337 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+<section class="page-header">
+    <div class="container">
+        <h2>學習歷程上傳區域</h2>
+    </div>
+</section>
+
+<section class="upload-container">
+    <div class="upload-form">
+        <div class="form-instructions">
+            <h3>學習歷程資料上傳區域</h3>
+            <ul>
+                <li>允許的格式: PDF(max 25MB)</li>
+            </ul>
+        </div>
+
+        @* <form id="resourceUploadForm"> *@
+        <div>
+
+            <div class="file-upload-area" id="dropArea">
+                <input type="file" id="fileUpload" multiple>
+                <button class="btn" onclick="uploadFile()">Upload</button>
+            </div>
+
+            <div id="result" style="margin:15px">
+
+            </div>
+
+            <div class="form-group">
+                <label for="Name">名稱*</label>
+                <input type="text" id="Name" placeholder="Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="resourceTitle">標題*</label>
+                <input type="text" id="resourceTitle" placeholder="Title" required> 
+            </div>
+
+            <div class="form-group">
+                <label for="SchoolText">入取或目標學校*</label>
+                <input type="text" id="SchoolText" placeholder="e.g. , 雲林科技大學" required>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div">
+                        <label for="resourceType">Resource Type*</label>
+                        <div>
+                            <input type="checkbox" id="B1" name="interest" value="B1" />
+                            <label for="B1">
+                                B-1 專題實作、實習科目學習成果（含技能領域）
+                            </label>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="B2" name="interest" value="B2" />
+                            <label for="B2">
+                                B-2 其他課程學習（作品）成果
+                            </label>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="C1" name="interest" value="C1" />
+                            <label for="C1">
+                                C-1 彈性學習時間學習成果 (包含自主學習或選手培訓或學校特色活動)
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="checkbox" id="C2" name="interest" value="C2" />
+                            <label for="C2">
+                                C-2 社團活動經驗
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="C3" name="interest" value="C3" />
+                            <label for="C3">
+                                C-3 擔任幹部經驗
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="C4" name="interest" value="C4" />
+                            <label for="C4">
+                                C-4 服務學習經驗
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="C5" name="interest" value="C5" />
+                            <label for="C5">
+                                C-5 競賽表現
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="C6" name="interest" value="C6" />
+                            <label for="C6">
+                                C-6 非修課紀錄之成果作品(如職場學習成果)
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="C7" name="interest" value="C7" />
+                            <label for="C7">
+                                C-7 檢定證照
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="C8" name="interest" value="C8" />
+                            <label for="C8">
+                                C-8 特殊優良表現證明
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="D1" name="interest" value="D1" title="D-1 多元表現綜整心得" />
+                            <label for="D1">
+                                D-1 多元表現綜整心得
+                            </label>
+                         </div>
+                        <div>
+                            <input type="checkbox" id="D2" name="interest" value="D2" />
+                            <label for="D2">
+                                D-2 學習歷程自述(含學習歷程反思、就讀動機、未來學習計畫與生涯規劃)
+                            </label>
+                         </div>
+                        <div>
+                            <input type="checkbox" id="D3" name="interest" value="D3" />
+                            <label for="D3">
+                                D-3 其他有利審查資料
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="examDate">學年度</label>
+                        <div class="form-group">
+                            <select id="DateType" required>
+                                <option value="">Select Date</option>
+                                <option value="110">110</option>
+                                <option value="111">111</option>
+                                <option value="112">112</option>
+                                <option value="113">113</option>
+                                <option value="114">114</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+            <label for="description">說明*</label>
+                <textarea id="description" rows="5" placeholder="Describe the content and how it helped you prepare for the exam..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="tags">標籤-請使用空白來分隔 (Option)</label>
+                <input type="text" id="tags" placeholder="e.g., 雲科大 雲林科技大學 雲科大智慧跨域技優專班">
+            </div>
+
+            @* <div class="form-group checkbox">
+                <input type="checkbox" id="confirmPassed" required>
+                <label for="confirmPassed">I confirm that I have passed this exam and am allowed to share these resources</label>
+            </div>
+
+            <div class="form-group checkbox">
+                <input type="checkbox" id="confirmRights" required>
+                <label for="confirmRights">I confirm that I have the rights to share this material and it doesn't violate any copyright or academic policies</label>
+            </div> *@
+
+            <div class="form-actions">
+                <button type="submit" class="btn primary" onclick="Update()">Upload Resource</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let uploadedFiles = []; // store file info list
+
+        async function Update(){
+            let ErrorMessage = "";
+            let Name = document.getElementById("Name");
+            let resourceTitle = document.getElementById("resourceTitle");
+            let result = document.getElementById("result");
+            let SchoolText = document.getElementById("SchoolText");
+            let description = document.getElementById("description");
+            let CheckBoxValue = ["B1","B2","C1","C2","C3","C4","C5","C6","C7","C8","D1","D2","D3"];
+            let CheckedBox = "";
+            CheckBoxValue.forEach(function(value){
+                let CheckBox = document.getElementById(value);
+                if(CheckBox.checked){
+                    if(CheckedBox == ""){
+                        CheckedBox+=(value);
+                    }else{
+                        CheckedBox+=(","+value);
+                    }
+                }
+            });
+            if(CheckedBox == ""){
+                if(ErrorMessage == ""){
+                    ErrorMessage += "尚未選擇學習歷程檔案種類";
+                }else{
+                    ErrorMessage +="," +"尚未選擇學習歷程檔案種類";
+                }
+            }
+            let DateType = document.getElementById("DateType");
+            let tags = document.getElementById("tags");
+            var fileslist = "";
+            uploadedFiles.forEach(function(file){
+                if(fileslist == ""){
+					fileslist = file.fileName;
+                }else{
+                    fileslist += "," + file.fileName;
+                }
+                // file.tags = tags.value;
+            });
+            if(fileslist == ""){
+                if(ErrorMessage == ""){
+                    ErrorMessage += "尚未選擇上傳檔案";
+                }else{
+                    ErrorMessage +="," +"尚未選擇上傳檔案";
+                }
+            }
+            if(resourceTitle.value == ""){
+                if(ErrorMessage == ""){
+                    ErrorMessage += "尚未設定Title";
+                }else{
+                    ErrorMessage +="," +"尚未設定Title";
+                }
+            }
+            if(Name.value == ""){
+                if(ErrorMessage == ""){
+                    ErrorMessage += "尚未輸入名稱";
+                }else{
+                    ErrorMessage +="," +"尚未輸入名稱";
+                }
+            }
+            if(SchoolText.value == ""){
+                if(ErrorMessage == ""){
+                    ErrorMessage += "尚未輸入入取或目標學校";
+                }else{
+                    ErrorMessage +="," +"尚未輸入入取或目標學校";
+                }
+            }
+            if(description.value == ""){
+                if(ErrorMessage == ""){
+                    ErrorMessage += "尚未輸入內容";
+                }else{
+                    ErrorMessage +="," +"尚未輸入內容";
+                }
+            }
+            if(ErrorMessage != ""){
+                alert(ErrorMessage)
+            }else{
+                  var newProduct = { Title: resourceTitle.value , File : fileslist  , Type : CheckedBox , Date : DateType.value , User : Name.value , School : SchoolText.value , Tag : tags.value , Description : description.value  };
+
+            console.log(newProduct);
+
+            try {
+                const res = await fetch('/api/products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newProduct)
+                });
+
+                if (!res.ok) {
+                    alert("Error saving product: " + res.status);
+                    return;
+                }
+
+                const product = await res.json();
+                alert("Success");
+
+            } catch (err) {
+                console.error(err);
+                alert("Network error");
+            }
+            }
+           
+
+            // console.log(uploadedFiles);
+            // console.log(resourceTitle.value);
+            // console.log(DateType.value);
+            // console.log(SchoolText.value);
+            // console.log(tags.value);
+            // console.log(CheckedBox);
+
+        }
+
+
+
+        async function uploadFile() {
+            const input = document.getElementById("fileUpload");
+            if (input.files.length === 0) {
+                alert("Please choose file(s) first.");
+                return;
+            }
+
+            const formData = new FormData();
+            for (let i = 0; i < input.files.length; i++) {
+                formData.append("files", input.files[i]);
+            }
+
+            const response = await fetch("/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            // add new uploaded files to list
+            uploadedFiles = uploadedFiles.concat(data);
+            renderList();
+        }
+
+        function renderList() {
+            const resultList = document.getElementById("result");
+            resultList.innerHTML = "";
+
+            uploadedFiles.forEach((file, index) => {
+                const li = document.createElement("li");
+                li.textContent = `File: ${file.fileName}, Size: ${file.size} bytes  `;
+
+                const cancelBtn = document.createElement("button");
+                cancelBtn.textContent = "Cancel";
+                cancelBtn.className = "cancel";
+                cancelBtn.onclick = () => {
+                    uploadedFiles.splice(index, 1); // remove from list
+                    renderList();
+                };
+
+                li.appendChild(cancelBtn);
+                resultList.appendChild(li);
+            });
+        }
+
+    </script>
+</section>
