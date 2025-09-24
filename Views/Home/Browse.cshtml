@@ -6,7 +6,7 @@
 @model IEnumerable<YourApp.Models.Product>
 @{
 	<dialog id="Dialog" style="width:80%;height:80%;margin:1vh;z-index: 1;margin-left:10%;padding:20px">
-	<p id="forid" hidden></p>
+		<p id="forid" hidden></p>
 		<div style="display: flex; justify-content: space-between;">
 			<h1>
 				詳細資料
@@ -38,6 +38,19 @@
 			</div>
 		</div>
 	</dialog>
+}
+@{
+	// for resopnse
+	<!-- Native HTML dialog -->
+	<dialog id="reactionDialog" style="width:80%;height:80%;margin:1vh;z-index: 1;margin-left:10%;padding:20px">
+		<h3>Enter your reaction</h3>
+		<input type="text" id="userInput" placeholder="Type something...">
+		<div>
+			<button class="submit-btn" onclick="submitReaction()">Submit</button>
+			<button class="cancel-btn" onclick="closeDialog()">Cancel</button>
+		</div>
+	</dialog>
+
 }
 <section class="page-header" style="padding-top:10px">
 	<div class="container">
@@ -106,21 +119,7 @@
 		</div>
 	</div>
 	 <div class="resource-grid" style="padding:10px" id="GridLayuot">
-		@* @foreach (var item in Model)
-		{
-			<div class="resource-card">
 
-				<div class="resource-type pdf">PDF</div>
-				<h3>@item.Title</h3>
-				<p class="subject" style="margin:20px">@item.Description</p>
-				<div class="resource-meta">
-					<span><i class="fas fa-user"></i> @item.User</span>
-					<span><i class="fas fa-calendar"></i>@item.Date</span>
-				</div>
-
-				<button class="btn" id="opendialog" onclick="toggleDialog(@item.Id)">View Resource</button>
-			</div>
-		} *@
 	</div> 
 	<div class="pagination">
 		<button><i class="fas fa-chevron-left"></i></button>
@@ -130,6 +129,7 @@
 
 </section>
 <script>
+
 	// const Dialog = document.getElementById("Dialog");
 	// const dialogbt = document.getElementById("opendialog");
 	// const closedialogbt = document.getElementById("closedialog");
@@ -140,6 +140,7 @@
 	// closedialogbt.addEventListener('click', () => {
 	// 	Dialog.close();
 	// });
+
 	var allProducts = @Html.Raw(ViewBag.ProductsJson);
 	var tempProducts = allProducts;
 	let OpenDialog = false;
@@ -183,7 +184,10 @@
 							<span><i class="fas fa-user"></i> ${item.User}</span>
 							<span><i class="fas fa-calendar"></i> ${item.Date}</span>
 						</div>
-						<button class="btn" onclick="toggleDialog(${item.Id})">View Resource</button>
+						<div style="display: flex; justify-content:space-between;">
+							<button class="btn"  onclick="toggleDialog(${item.Id})">View Resource</button>
+							<button class="btn" onclick="openResponseDialog()">Response</button>
+						</div>
 					</div>
 				</div>
 			`;
@@ -220,7 +224,7 @@
 			// Reference to container and iframe
 			var ul = document.getElementById('fileList');
 			var iframe = document.getElementById('forpdf');
-			ul.removeChild;
+			ul.innerHTML = ""
 			// Loop through files and create buttons
 			files.forEach(function(file) {
 				var li = document.createElement('li');
@@ -243,4 +247,36 @@
 		}
 	}
 	ClickedFilter();
+
+	const dialog = document.getElementById("reactionDialog");
+	const responses = []; // store all responses here
+
+	function openResponseDialog() {
+	  dialog.showModal();
+	}
+
+	function closeDialog() {
+	  dialog.close();
+	}
+
+	function submitReaction() {
+	  const input = document.getElementById("userInput").value.trim();
+	  if (input) {
+		responses.push(input);
+		renderResponses();
+	  }
+	  document.getElementById("userInput").value = ""; // clear input
+	  closeDialog();
+	}
+
+	function renderResponses() {
+	  const list = document.getElementById("responsesList");
+	  list.innerHTML = "";
+	  responses.forEach((r, i) => {
+		const li = document.createElement("li");
+		li.textContent = r;
+		list.appendChild(li);
+	  });
+	}
+
 </script>
