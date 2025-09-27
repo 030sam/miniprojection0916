@@ -14,7 +14,8 @@ namespace YourApp.Models
     {
         public int Id { get; set; }
         public string userid { get; set; }
-        public string Command { get; set; }
+        public string ReacterMessage { get; set; }
         public string Date { get; set; }
+       public int Chatid { get; set; }
     }
 }

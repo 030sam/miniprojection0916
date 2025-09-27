@@ -111,6 +111,7 @@ header .container {
 
 nav ul {
     display: flex;
+    align-items: center;
 }
 
 nav ul li {
@@ -512,11 +513,11 @@ footer {
     margin-bottom: 0;
 }
 
-.modal button {
-    width: 100%;
-    padding: 12px;
+/*.modal button {*/
+/*    width: 100%;*/
+    /*padding: 12px;
     margin-top: 10px;
-}
+}*/
 
 .modal-footer {
     text-align: center;

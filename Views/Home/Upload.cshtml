@@ -42,113 +42,98 @@
                 <label for="SchoolText">入取或目標學校*</label>
                 <input type="text" id="SchoolText" placeholder="e.g. , 雲林科技大學" required>
             </div>
-            <div class="form-row">
-                <div class="form-col">
-                    <div">
-                        <label for="resourceType">Resource Type*</label>
-                        <div>
-                            <input type="checkbox" id="B1" name="interest" value="B1" />
-                            <label for="B1">
-                                B-1 專題實作、實習科目學習成果（含技能領域）
-                            </label>
-                        </div>
 
-                        <div>
-                            <input type="checkbox" id="B2" name="interest" value="B2" />
-                            <label for="B2">
-                                B-2 其他課程學習（作品）成果
-                            </label>
-                        </div>
+            <link rel="stylesheet" href="~/css/UploadBoostrap.css">
+            <div class="mt-4 BootstrapCustom ">
+                <label class="form-label">Resource Type*</label>
 
-                        <div>
-                            <input type="checkbox" id="C1" name="interest" value="C1" />
-                            <label for="C1">
-                                C-1 彈性學習時間學習成果 (包含自主學習或選手培訓或學校特色活動)
-                            </label>
-                        </div>
-                        
-                        <div>
-                            <input type="checkbox" id="C2" name="interest" value="C2" />
-                            <label for="C2">
-                                C-2 社團活動經驗
-                            </label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="C3" name="interest" value="C3" />
-                            <label for="C3">
-                                C-3 擔任幹部經驗
-                            </label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="C4" name="interest" value="C4" />
-                            <label for="C4">
-                                C-4 服務學習經驗
-                            </label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="C5" name="interest" value="C5" />
-                            <label for="C5">
-                                C-5 競賽表現
-                            </label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="C6" name="interest" value="C6" />
-                            <label for="C6">
-                                C-6 非修課紀錄之成果作品(如職場學習成果)
-                            </label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="C7" name="interest" value="C7" />
-                            <label for="C7">
-                                C-7 檢定證照
-                            </label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="C8" name="interest" value="C8" />
-                            <label for="C8">
-                                C-8 特殊優良表現證明
-                            </label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="D1" name="interest" value="D1" title="D-1 多元表現綜整心得" />
-                            <label for="D1">
-                                D-1 多元表現綜整心得
-                            </label>
-                         </div>
-                        <div>
-                            <input type="checkbox" id="D2" name="interest" value="D2" />
-                            <label for="D2">
-                                D-2 學習歷程自述(含學習歷程反思、就讀動機、未來學習計畫與生涯規劃)
-                            </label>
-                         </div>
-                        <div>
-                            <input type="checkbox" id="D3" name="interest" value="D3" />
-                            <label for="D3">
-                                D-3 其他有利審查資料
-                            </label>
-                        </div>
-                    </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="B1" name="interest" value="B1">
+                    <label class="form-check-label" for="B1">
+                        B-1 專題實作、實習科目學習成果（含技能領域）
+                    </label>
                 </div>
-                <div class="form-col">
-                    <div class="form-group">
-                        <label for="examDate">學年度</label>
-                        <div class="form-group">
-                            <select id="DateType" required>
-                                <option value="">Select Date</option>
-                                <option value="110">110</option>
-                                <option value="111">111</option>
-                                <option value="112">112</option>
-                                <option value="113">113</option>
-                                <option value="114">114</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="form-group">
-            <label for="description">說明*</label>
-                <textarea id="description" rows="5" placeholder="Describe the content and how it helped you prepare for the exam..."></textarea>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="B2" name="interest" value="B2">
+                    <label class="form-check-label" for="B2">
+                        B-2 其他課程學習（作品）成果
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="C1" name="interest" value="C1">
+                    <label class="form-check-label" for="C1">
+                        C-1 彈性學習時間學習成果 (包含自主學習或選手培訓或學校特色活動)
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="C2" name="interest" value="C2">
+                    <label class="form-check-label" for="C2">C-2 社團活動經驗</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="C3" name="interest" value="C3">
+                    <label class="form-check-label" for="C3">C-3 擔任幹部經驗</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="C4" name="interest" value="C4">
+                    <label class="form-check-label" for="C4">C-4 服務學習經驗</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="C5" name="interest" value="C5">
+                    <label class="form-check-label" for="C5">C-5 競賽表現</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="C6" name="interest" value="C6">
+                    <label class="form-check-label" for="C6">C-6 非修課紀錄之成果作品(如職場學習成果)</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="C7" name="interest" value="C7">
+                    <label class="form-check-label" for="C7">C-7 檢定證照</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="C8" name="interest" value="C8">
+                    <label class="form-check-label" for="C8">C-8 特殊優良表現證明</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="D1" name="interest" value="D1">
+                    <label class="form-check-label" for="D1">D-1 多元表現綜整心得</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="D2" name="interest" value="D2">
+                    <label class="form-check-label" for="D2">D-2 學習歷程自述(含學習歷程反思、就讀動機、未來學習計畫與生涯規劃)</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="D3" name="interest" value="D3">
+                    <label class="form-check-label" for="D3">D-3 其他有利審查資料</label>
+                </div>
+
+                <div class="mb-3">
+                    <label for="DateType" class="form-label">學年度</label>
+                    <select class="form-select" id="DateType" required>
+                        <option value="">Select Date</option>
+                        <option value="110">110</option>
+                        <option value="111">111</option>
+                        <option value="112">112</option>
+                        <option value="113">113</option>
+                        <option value="114">114</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">說明*</label>
+                    <textarea class="form-control" id="description" rows="5" placeholder="Describe the content and how it helped you prepare for the exam..."></textarea>
+                </div>
             </div>
 
             <div class="form-group">
@@ -254,7 +239,7 @@
                   var newProduct = { Title: resourceTitle.value , File : fileslist  , Type : CheckedBox , Date : DateType.value , User : Name.value , School : SchoolText.value , Tag : tags.value , Description : description.value  };
 
             console.log(newProduct);
-
+            
             try {
                 const res = await fetch('/api/products', {
                     method: 'POST',

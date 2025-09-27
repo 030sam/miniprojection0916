@@ -1,282 +1,358 @@
 ﻿@{
-	ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home Page";
 }
 
 @using YourApp.Models
 @model IEnumerable<YourApp.Models.Product>
 @{
-	<dialog id="Dialog" style="width:80%;height:80%;margin:1vh;z-index: 1;margin-left:10%;padding:20px">
-		<p id="forid" hidden></p>
-		<div style="display: flex; justify-content: space-between;">
-			<h1>
-				詳細資料
-			</h1>
-			<button class="btn btn-bd-primary" id="closedialog" onclick="toggleDialog()">
-				Close
-			</button>
-		</div>
-		<div style="display: flex; justify-content: space-between;margin:20px">
-			<div style="width: 40%;height:80%">
-				<h2 id="DialogTitle"></h2>
-				<p id="DialogDescription">
-				</p>
-				<p id="DialogUser"></p>
-				<p id="DialogDate"></p>
-				<p id="DialogType"></p>
-				<div style="height:30px"></div>
-				<h4>File List</h4>
-				<hr></hr>
-				<ul id="fileList"></ul>
-			</div>
-			<div style="width: 60%;height:80%">
-				<iframe
-				id="forpdf"
-				src="https://localhost:7107/797296438_638939826975177484.pdf"
-						width="100%"
-						height="600px"
-						style="border:none;"></iframe>
-			</div>
-		</div>
-	</dialog>
+    <dialog id="Dialog" style="width:80%;height:80%;margin:1vh;z-index: 1;margin-left:10%;padding:20px">
+        <p id="forid" hidden></p>
+        <div style="display: flex; justify-content: space-between;">
+            <h1>
+                詳細資料
+            </h1>
+            <button class="btn btn-bd-primary" id="closedialog" onclick="toggleDialog()">
+                Close
+            </button>
+        </div>
+        <div style="display: flex; justify-content: space-between;margin:20px">
+            <div style="width: 40%;height:80%">
+                <h2 id="DialogTitle"></h2>
+                <p id="DialogDescription">
+                </p>
+                <p id="DialogUser"></p>
+                <p id="DialogDate"></p>
+                <p id="DialogType"></p>
+                <div style="height:30px"></div>
+                <h4>File List</h4>
+                <hr></hr>
+                <ul id="fileList"></ul>
+            </div>
+            <div style="width: 60%;height:80%">
+                <iframe
+                id="forpdf"
+                src="https://localhost:7107/797296438_638939826975177484.pdf"
+                        width="100%"
+                        height="600px"
+                        style="border:none;"></iframe>
+            </div>
+        </div>
+    </dialog>
 }
 @{
-	// for resopnse
-	<!-- Native HTML dialog -->
-	<dialog id="reactionDialog" style="width:80%;height:80%;margin:1vh;z-index: 1;margin-left:10%;padding:20px">
-		<h3>Enter your reaction</h3>
-		<input type="text" id="userInput" placeholder="Type something...">
-		<div>
-			<button class="submit-btn" onclick="submitReaction()">Submit</button>
-			<button class="cancel-btn" onclick="closeDialog()">Cancel</button>
-		</div>
-	</dialog>
+    <link rel="stylesheet" href="~/css/Commit.css">
+    // for resopnse
+    <!-- Native HTML dialog -->
+    <dialog id="reactionDialog" style="width:80%;height:80%;margin:1vh;z-index: 1;margin-left:10%;padding:20px">
+        <div style="display: flex; justify-content: space-between;">
+            <h2>Submit Your Reaction</h2>
+            <button class="btn btn-bd-primary" onclick="closeDialog()">Close</button>
+        </div>
+        <div id="CommitChat"></div>
+        <div class="chat-input" style="width:98%;">
+            <input type="text" id="messageInput" placeholder="Type a message..." />
+            <button id="sendBtn" onclick="SendCommitToServer()">Send</button>
+        </div>
+    </dialog>
 
 }
 <section class="page-header" style="padding-top:10px">
-	<div class="container">
-		<h2>瀏覽其他學習歷程資料</h2>
-	</div>
+    <div class="container">
+        <h2>瀏覽其他學習歷程資料</h2>
+    </div>
 </section>
 <section class="browse-container container" style="padding-bottom:10px">
-	<div class="filter-bar">
-		<div class="filter-form" id="filterForm">
-			<div class="filter-group">
-				<label for="resourceType">資料類型</label>
-				<select id="resourceType">
-					<option value="">Select Type</option>
-					<option value="B1">B-1</option>
-					<option value="B2">B-2</option>
-					<option value="C1">C-1</option>
-					<option value="C2">C-2</option>
-					<option value="C3">C-3</option>
-					<option value="C4">C-4</option>
-					<option value="C5">C-5</option>
-					<option value="C6">C-6</option>
-					<option value="C7">C-7</option>
-					<option value="C8">C-8</option>
-					<option value="D1">D-1</option>
-					<option value="D2">D-2</option>
-					<option value="D3">D-3</option>
-				</select>
-			</div>
-			<div class="filter-group">
-				<label for="resourceDate">學年度</label>
-				<select id="resourceDate">
-					<option value="">Select Date</option>
-					<option value="114">114</option>
-					<option value="113">113</option>
-					<option value="112">112</option>
-					<option value="111">111</option>
-					<option value="110">110</option>
-				</select>
-			</div>
-			<div class="filter-group">
-				<label for="fileFormat">檔案種類</label>
-				<select id="fileFormat">
-					<option value="PDF">PDF</option>
-				</select>
-			</div>
-			<div class="filter-group">
-				<label for="searchQuery">Search</label>
-				<input type="text" id="searchQuery" placeholder="Search by keywords...">
-			</div>
-			<div class="filter-actions">
-				<button type="submit" class="btn primary" onclick="ClickedFilter()">Apply Filters</button>
-				<button type="reset" class="btn secondary">Reset</button>
-			</div>
-		</div>
-	</div>
+    <div class="filter-bar">
+        <div class="filter-form" id="filterForm">
+            <div class="filter-group">
+                <label for="resourceType">資料類型</label>
+                <select id="resourceType">
+                    <option value="">Select Type</option>
+                    <option value="B1">B-1</option>
+                    <option value="B2">B-2</option>
+                    <option value="C1">C-1</option>
+                    <option value="C2">C-2</option>
+                    <option value="C3">C-3</option>
+                    <option value="C4">C-4</option>
+                    <option value="C5">C-5</option>
+                    <option value="C6">C-6</option>
+                    <option value="C7">C-7</option>
+                    <option value="C8">C-8</option>
+                    <option value="D1">D-1</option>
+                    <option value="D2">D-2</option>
+                    <option value="D3">D-3</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="resourceDate">學年度</label>
+                <select id="resourceDate">
+                    <option value="">Select Date</option>
+                    <option value="114">114</option>
+                    <option value="113">113</option>
+                    <option value="112">112</option>
+                    <option value="111">111</option>
+                    <option value="110">110</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="fileFormat">檔案種類</label>
+                <select id="fileFormat">
+                    <option value="PDF">PDF</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="searchQuery">Search</label>
+                <input type="text" id="searchQuery" placeholder="Search by keywords...">
+            </div>
+            <div class="filter-actions">
+                <button type="submit" class="btn primary" onclick="ClickedFilter()">Apply Filters</button>
+                <button type="reset" class="btn secondary">Reset</button>
+            </div>
+        </div>
+    </div>
 
-	<div class="results-info">
-		<div class="sort-options">
-			<label for="sortBy">Sort by:</label>
-			<select id="sortBy">
-				<option value="recent">Most Recent</option>
-				<option value="downloads">Most Downloaded</option>
-				<option value="rating">Highest Rated</option>
-				<option value="az">A-Z</option>
-			</select>
-		</div>
-	</div>
-	 <div class="resource-grid" style="padding:10px" id="GridLayuot">
+    <div class="results-info">
+        <div class="sort-options">
+            <label for="sortBy">Sort by:</label>
+            <select id="sortBy">
+                <option value="recent">Most Recent</option>
+                <option value="downloads">Most Downloaded</option>
+                <option value="rating">Highest Rated</option>
+                <option value="az">A-Z</option>
+            </select>
+        </div>
+    </div>
+     <div class="resource-grid" style="padding:10px" id="GridLayuot">
 
-	</div> 
-	<div class="pagination">
-		<button><i class="fas fa-chevron-left"></i></button>
-		<button class="active">1</button>
-		<button><i class="fas fa-chevron-right"></i></button>
-	</div>
+    </div> 
+    <div class="pagination">
+        <button><i class="fas fa-chevron-left"></i></button>
+        <button class="active">1</button>
+        <button><i class="fas fa-chevron-right"></i></button>
+    </div>
 
 </section>
 <script>
 
-	// const Dialog = document.getElementById("Dialog");
-	// const dialogbt = document.getElementById("opendialog");
-	// const closedialogbt = document.getElementById("closedialog");
-	// dialogbt.addEventListener('click', () => {
-	// 	Dialog.show();
-	// 	//window.open("https://localhost:7107/797296438_638939826975177484.pdf", "_blank");
-	// });
-	// closedialogbt.addEventListener('click', () => {
-	// 	Dialog.close();
-	// });
+    // const Dialog = document.getElementById("Dialog");
+    // const dialogbt = document.getElementById("opendialog");
+    // const closedialogbt = document.getElementById("closedialog");
+    // dialogbt.addEventListener('click', () => {
+    // 	Dialog.show();
+    // 	//window.open("https://localhost:7107/797296438_638939826975177484.pdf", "_blank");
+    // });
+    // closedialogbt.addEventListener('click', () => {
+    // 	Dialog.close();
+    // });
 
-	var allProducts = @Html.Raw(ViewBag.ProductsJson);
-	var tempProducts = allProducts;
-	let OpenDialog = false;
+    var allProducts = @Html.Raw(ViewBag.ProductsJson);
+    var tempProducts = allProducts;
+    let OpenDialog = false;
 
-	function ClickedFilter(){
-		tempProducts = allProducts;
-		const Type = document.getElementById("resourceType");
-		const Datet = document.getElementById("resourceDate");
-		// const GridLayuot = document.getElementById("GridLayuot");
-		var tempbProducts = [];
-		if(Type.value != ""){
-			tempProducts.forEach(item => {
-				if(item.Type == Type.value){
-					tempbProducts.push(item);
-				}
-			});
+    function ClickedFilter(){
+        tempProducts = allProducts;
+        const Type = document.getElementById("resourceType");
+        const Datet = document.getElementById("resourceDate");
+        // const GridLayuot = document.getElementById("GridLayuot");
+        var tempbProducts = [];
+        if(Type.value != ""){
+            tempProducts.forEach(item => {
+                if(item.Type == Type.value){
+                    tempbProducts.push(item);
+                }
+            });
+        }
+        if(Datet.value != ""){
+            if(Type.value != ""){
+                tempProducts=tempbProducts;
+                tempbProducts=[];
+            }
+            tempProducts.forEach(item => {
+                if(item.Date == Datet.value){
+                    tempbProducts.push(item);
+                }
+            });
+        }
+        if(Type.value == ""&&Datet.value == ""){
+            tempbProducts = tempProducts;
+        }
+        let html = "";
+        tempbProducts.forEach(item => {
+            html += `
+                <div class="resource-card">
+                    <div class="resource" data-id="${item.Id}" data-title="${item.Title}" data-desc="${item.Description}">
+                        <div class="resource-type pdf">PDF</div>
+                        <h3>${item.Title}</h3>
+                        <p class="subject" style="margin:20px">${item.Description}</p>
+                        <div class="resource-meta">
+                            <span><i class="fas fa-user"></i> ${item.User}</span>
+                            <span><i class="fas fa-calendar"></i> ${item.Date}</span>
+                        </div>
+                        <div style="display: flex; justify-content:space-between;">
+                            <button class="btn"  onclick="toggleDialog(${item.Id})">View Resource</button>
+                            <button class="btn" onclick="openResponseDialog(${item.Id})">Response</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        if(html == ""){
+            html = `
+            <h2> 沒有找到相關的學習歷程資料,請從選擇條件 </h2>
+            `
+        }
+        document.getElementById("GridLayuot").innerHTML = html;
+    }
+
+    function toggleDialog(id) {
+        OpenDialog = !OpenDialog;
+            const dialog = document.getElementById("Dialog");
+        if (OpenDialog) {
+            dialog.show();
+            const PDF = document.getElementById("forpdf");
+            var product = tempProducts.find(p => p.Id === id);
+            document.getElementById("DialogTitle").innerText = product.Title;
+            document.getElementById("DialogDescription").innerText ="心得:\n"+ product.Description+"\n ";
+            document.getElementById("DialogUser").innerText = "Uploaded by:\n " + product.User+"\n ";
+            document.getElementById("DialogDate").innerText = "Date:\n " + product.Date+"\n ";
+            document.getElementById("DialogType").innerText = "Type:\n " + product.Type+"\n ";
+
+             var input =  product.File;
+            // Split into array
+             var files = [];
+             if(input.includes(",")){
+                files = input.split(',');
+             }else{
+                 files = [input];
+             }
+            // Reference to container and iframe
+            var ul = document.getElementById('fileList');
+            var iframe = document.getElementById('forpdf');
+            ul.innerHTML = ""
+            // Loop through files and create buttons
+            files.forEach(function(file) {
+                var li = document.createElement('li');
+                var button = document.createElement('button');
+                button.innerText = file;
+
+                // On click, change iframe src
+                button.addEventListener('click', function() {
+                    // Assuming your PDF files are in this folder on server
+                    iframe.src = "https://localhost:7107/" + file;
+                });
+
+                li.appendChild(button);
+                ul.appendChild(li);
+            });
+            PDF.src = "https://localhost:7107/" + files[0];
+
+        } else {
+            dialog.close();
+        }
+    }
+    ClickedFilter();
+
+    const dialog = document.getElementById("reactionDialog");
+    const responses = []; // store all responses here
+	let chatid = 0;
+    function openResponseDialog(id) {
+        chatid = id;
+        ReadCommitFromServer();
+        dialog.showModal();
+    }
+
+    function closeDialog() {
+      dialog.close();
+    }
+
+    // function submitReaction() {
+    //   const input = document.getElementById("userInput").value.trim();
+    //   if (input) {
+    // 	responses.push(input);
+    // 	renderResponses();
+    //   }
+    //   document.getElementById("userInput").value = ""; clear input
+    //   closeDialog();
+    // }
+
+    // function renderResponses() {
+    //   const list = document.getElementById("responsesList");
+    //   list.innerHTML = "";
+    //   responses.forEach((r, i) => {
+    // 	const li = document.createElement("li");
+    // 	li.textContent = r;
+    // 	list.appendChild(li);
+    //   });
+    // }
+
+
+    var Reacter = @Html.Raw(ViewBag.ReactersJson);
+    var User = @Html.Raw(ViewBag.UsersJson);
+
+    async function ReadCommitFromServer(){
+		let id = chatid;
+
+        let ReacterFromServer = await fetch("/Reacter/GetAll");
+        if(ReacterFromServer.ok){
+            Reacter = await ReacterFromServer.json();
+        }
+
+        let Chat = document.getElementById("CommitChat");
+        let html = "";
+        var nowchatReacter = Reacter.filter(item => item.chatid === id);
+
+        nowchatReacter.forEach(Reacter => {
+            User.forEach(user => {
+                if(user.Id == Reacter.userid){
+                    html += `
+                        <div class="chat-message">
+                            <div class="message-content">
+                                <h4>${user.Name}</h4>
+                                <p>${Reacter.reacterMessage}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        });
+         Chat.innerHTML = html;
+    }
+    async function SendCommitToServer(){
+        let id = chatid;
+        // post the reacter to server with fetch(api/reacter)
+        const messageInput = document.getElementById("messageInput");
+        const message = messageInput.value.trim();
+        if (message) {
+			// var userid = 1; //Replace with actual user ID
+            let userId = document.cookie.split('=')[1];
+            if(userId == null){
+                alert("需要登入才能登入");
+                return;
+            }
+            try{
+                let res = await fetch('/Reacter/Create', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userid: userId, // Replace with actual user ID
+                        ReacterMessage: message,
+                        Date: new Date().toISOString(),
+                        Chatid: id
+                    })
+                })
+                if(res.ok){
+					alert("Message sent successfully");
+				    ReadCommitFromServer();
+                }else{
+                  alert("Failed to send message");
+                }
+            }
+            catch(ex){
+                console.error(err);
+            }
+            messageInput.value = ""; // Clear input
 		}
-		if(Datet.value != ""){
-			if(Type.value != ""){
-				tempProducts=tempbProducts;
-				tempbProducts=[];
-			}
-			tempProducts.forEach(item => {
-				if(item.Date == Datet.value){
-					tempbProducts.push(item);
-				}
-			});
-		}
-		if(Type.value == ""&&Datet.value == ""){
-			tempbProducts = tempProducts;
-		}
-		let html = "";
-		tempbProducts.forEach(item => {
-			html += `
-				<div class="resource-card">
-					<div class="resource" data-id="${item.Id}" data-title="${item.Title}" data-desc="${item.Description}">
-						<div class="resource-type pdf">PDF</div>
-						<h3>${item.Title}</h3>
-						<p class="subject" style="margin:20px">${item.Description}</p>
-						<div class="resource-meta">
-							<span><i class="fas fa-user"></i> ${item.User}</span>
-							<span><i class="fas fa-calendar"></i> ${item.Date}</span>
-						</div>
-						<div style="display: flex; justify-content:space-between;">
-							<button class="btn"  onclick="toggleDialog(${item.Id})">View Resource</button>
-							<button class="btn" onclick="openResponseDialog()">Response</button>
-						</div>
-					</div>
-				</div>
-			`;
-		});
-		if(html == ""){
-			html = `
-			<h2> 沒有找到相關的學習歷程資料,請從選擇條件 </h2>
-			`
-		}
-		document.getElementById("GridLayuot").innerHTML = html;
-	}
-
-	function toggleDialog(id) {
-		OpenDialog = !OpenDialog;
-			const dialog = document.getElementById("Dialog");
-		if (OpenDialog) {
-			dialog.show();
-			const PDF = document.getElementById("forpdf");
-			var product = tempProducts.find(p => p.Id === id);
-			document.getElementById("DialogTitle").innerText = product.Title;
-			document.getElementById("DialogDescription").innerText ="心得:\n"+ product.Description;
-			document.getElementById("DialogUser").innerText = "Uploaded by:\n " + product.User;
-			document.getElementById("DialogDate").innerText = "Date:\n " + product.Date;
-			document.getElementById("DialogType").innerText = "Type:\n " + product.Type;
-
-			 var input =  product.File;
-			// Split into array
-			 var files = [];
-			 if(input.includes(",")){
-				files = input.split(',');
-			 }else{
-				 files = [input];
-			 }
-			// Reference to container and iframe
-			var ul = document.getElementById('fileList');
-			var iframe = document.getElementById('forpdf');
-			ul.innerHTML = ""
-			// Loop through files and create buttons
-			files.forEach(function(file) {
-				var li = document.createElement('li');
-				var button = document.createElement('button');
-				button.innerText = file;
-
-				// On click, change iframe src
-				button.addEventListener('click', function() {
-					// Assuming your PDF files are in this folder on server
-					iframe.src = "https://localhost:7107/" + file;
-				});
-
-				li.appendChild(button);
-				ul.appendChild(li);
-			});
-			PDF.src = "https://localhost:7107/" + files[0];
-
-		} else {
-			dialog.close();
-		}
-	}
-	ClickedFilter();
-
-	const dialog = document.getElementById("reactionDialog");
-	const responses = []; // store all responses here
-
-	function openResponseDialog() {
-	  dialog.showModal();
-	}
-
-	function closeDialog() {
-	  dialog.close();
-	}
-
-	function submitReaction() {
-	  const input = document.getElementById("userInput").value.trim();
-	  if (input) {
-		responses.push(input);
-		renderResponses();
-	  }
-	  document.getElementById("userInput").value = ""; // clear input
-	  closeDialog();
-	}
-
-	function renderResponses() {
-	  const list = document.getElementById("responsesList");
-	  list.innerHTML = "";
-	  responses.forEach((r, i) => {
-		const li = document.createElement("li");
-		li.textContent = r;
-		list.appendChild(li);
-	  });
-	}
-
+    }    
 </script>
