@@ -161,6 +161,17 @@
     <script>
         let uploadedFiles = []; // store file info list
 
+        var User = @Html.Raw(ViewBag.UsersJson);
+        function UserProfile(){
+            let userId = document.cookie.split('=')[1];
+            User.forEach(function(user){
+                if(user.Id == userId){
+                    document.getElementById("Name").value = user.Name;
+					document.getElementById("SchoolText").value = user.School;
+                }
+			});
+        }
+        UserProfile();
         async function Update(){
             let ErrorMessage = "";
             let Name = document.getElementById("Name");

@@ -36,6 +36,7 @@ namespace WebApplication2.Controllers
         }
         public IActionResult Upload()
         {
+            ViewBag.UsersJson = JsonConvert.SerializeObject(UserContext.User.ToList());
             return View();
         }
 
