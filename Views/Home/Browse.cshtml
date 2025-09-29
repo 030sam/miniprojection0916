@@ -45,10 +45,10 @@
     <!-- Native HTML dialog -->
     <dialog id="reactionDialog" style="width:80%;height:80%;margin:1vh;z-index: 1;margin-left:10%;padding:20px">
         <div style="display: flex; justify-content: space-between;">
-            <h2>Submit Your Reaction</h2>
+            <h2>聊天室</h2>
             <button class="btn btn-bd-primary" onclick="closeDialog()">Close</button>
         </div>
-        <div id="CommitChat"></div>
+        <div class="BootstrapCustom-chat-body" id="CommitChat"></div>
         <div class="chat-input" style="width:98%;">
             <input type="text" id="messageInput" placeholder="Type a message..." />
             <button id="sendBtn" onclick="SendCommitToServer()">Send</button>
@@ -56,12 +56,12 @@
     </dialog>
 
 }
-<section class="page-header" style="padding-top:10px">
+<section class="page-header" style="padding-top:50px">
     <div class="container">
         <h2>瀏覽其他學習歷程資料</h2>
     </div>
 </section>
-<section class="browse-container container" style="padding-bottom:10px">
+<section class="browse-container container" style="padding-bottom:50px">
     <div class="filter-bar">
         <div class="filter-form" id="filterForm">
             <div class="filter-group">
@@ -132,6 +132,7 @@
     </div>
 
 </section>
+
 <script>
 
     // const Dialog = document.getElementById("Dialog");
@@ -304,14 +305,41 @@
         nowchatReacter.forEach(Reacter => {
             User.forEach(user => {
                 if(user.Id == Reacter.userid){
-                    html += `
-                        <div class="chat-message">
-                            <div class="message-content">
-                                <h4>${user.Name}</h4>
-                                <p>${Reacter.reacterMessage}</p>
+                    if(document.cookie != ''){  
+                        let userId = document.cookie.split('=')[1];
+                        if( document.cookie.includes("=") && userId == Reacter.userid){
+                            html += `
+                            <div class="BootstrapCustom-message user">
+                                    <strong>${user.Name}</strong><br>
+                                    ${Reacter.reacterMessage}
+                                    <div class="BootstrapCustom-time"  style="color:white;">${Reacter.date}</div>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                            `;
+                        }else{
+                            html += `
+                                <div class="BootstrapCustom-chat-body">
+                                    <!-- Other person -->
+                                    <div class="BootstrapCustom-message other">
+                                        <strong>${user.Name}</strong><br>
+                                        ${Reacter.reacterMessage}
+                                        <div class="BootstrapCustom-time">${Reacter.date}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }else{
+                            html += `
+                                <div class="BootstrapCustom-chat-body">
+                                    <!-- Other person -->
+                                    <div class="BootstrapCustom-message other">
+                                        <strong>${user.Name}</strong><br>
+                                        ${Reacter.reacterMessage}
+                                        <div class="BootstrapCustom-time">${Reacter.date}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }
                 }
             });
         });

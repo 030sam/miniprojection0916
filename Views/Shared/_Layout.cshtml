@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>學習歷程-線上學習平台</title>
     <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/css/Reacter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @*<link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap-grid.css">
     <link rel="stylesheet" href="~/lib/docs.min.css">*@
@@ -71,9 +72,12 @@
                 <div class="footer-links">
                     <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="upload.html">Upload Resources</a></li>
-                        <li><a href="browse.html">Browse Resources</a></li>
+                        @* <li><a href="index.html">Home</a></li>
+                        <li><a href="upload.html">Upload Resources</a></li> *@
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Upload">Upload Resources</a>
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Browse">Browse Resources</a></li>
+                        @* <li><a href="browse.html">Browse Resources</a></li> *@
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
@@ -88,9 +92,9 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
+            @* <div class="footer-bottom">
                 <p>&copy; 2025 Exam Resources Hub. All rights reserved.</p>
-            </div>
+            </div> *@
         </div>
     </footer>
 

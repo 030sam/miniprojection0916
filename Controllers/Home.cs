@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YourApp.Models;
-using Newtonsoft.Json; // make sure you have this
+using Newtonsoft.Json;
 
 namespace WebApplication2.Controllers
 {
@@ -10,7 +10,6 @@ namespace WebApplication2.Controllers
         private  ReacterDbContext ReacterContext;
         private  UserDbContext UserContext;
 
-        // 修正 CS8618: 為 ReactedContetx 提供建構式初始化
         public Home(AppDbContext context, ReacterDbContext reactedContext ,UserDbContext userconext)
         {
             _context = context;
@@ -22,7 +21,6 @@ namespace WebApplication2.Controllers
         {
             var products = _context.Products.ToList();
             ViewBag.ProductsJson = JsonConvert.SerializeObject(products);
-            //var products = _context.Products.ToList();
             return View();
         }
         public IActionResult Browse()
