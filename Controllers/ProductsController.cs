@@ -18,15 +18,6 @@ public class ProductsController : ControllerBase
         return Ok(_context.Products.ToList());
     }
 
-    // POST: api/products
-    //[HttpPost]
-    //public IActionResult Create([FromBody] Product product)
-    //{
-    //    if (product == null) return BadRequest();
-    //    _context.Products.Add(product);
-    //    _context.SaveChanges();
-    //    return Ok(product);
-    //}
     [HttpPost]
     public IActionResult Create([FromBody] Product product)
     {
@@ -46,6 +37,16 @@ public class ProductsController : ControllerBase
 
         return Ok(product);
     }
+
+    // POST: api/products
+    //[HttpPost]
+    //public IActionResult Create([FromBody] Product product)
+    //{
+    //    if (product == null) return BadRequest();
+    //    _context.Products.Add(product);
+    //    _context.SaveChanges();
+    //    return Ok(product);
+    //}
 
     // PUT: api/products/5
     //[HttpPut("{id}")]

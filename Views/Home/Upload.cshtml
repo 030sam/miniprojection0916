@@ -1,5 +1,5 @@
 ﻿@{
-	ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home Page";
 }
 <section class="page-header">
     <div class="container">
@@ -158,7 +158,26 @@
         </div>
     </div>
 
+    <link rel="stylesheet" href="~/css/CenterDialog.css">
+    <dialog id="imageDialog" class="imageDialog" style="padding:20px;">
+        @* <img id="serverImage" style="max-width:100%; max-height:70vh; display:block; margin-bottom:10px;" /> *@
+        <div style="display:flex;justify-content: space-between;">
+            <h2>Clipe The Image</h2>
+            <button id="closeDialog">Close</button>
+        </div>
+        <div>
+            <img id="TestImage"><img />
+            <div style="width:80%">
+                <canvas id="canvas"></canvas>
+            </div>
+            <div style="width:20%">
+                <button id="cutBtn">Cut Selected Box</button>
+            </div>
+        </div>
+    </dialog>
+
     <script>
+
         let uploadedFiles = []; // store file info list
 
         var User = @Html.Raw(ViewBag.UsersJson);
@@ -167,9 +186,9 @@
             User.forEach(function(user){
                 if(user.Id == userId){
                     document.getElementById("Name").value = user.Name;
-					document.getElementById("SchoolText").value = user.School;
+                    document.getElementById("SchoolText").value = user.School;
                 }
-			});
+            });
         }
         UserProfile();
         async function Update(){
@@ -203,7 +222,7 @@
             var fileslist = "";
             uploadedFiles.forEach(function(file){
                 if(fileslist == ""){
-					fileslist = file.fileName;
+                    fileslist = file.fileName;
                 }else{
                     fileslist += "," + file.fileName;
                 }
@@ -284,7 +303,7 @@
 
 
 
-        async function uploadFile() {
+         async function uploadFile() {
             const input = document.getElementById("fileUpload");
             if (input.files.length === 0) {
                 alert("Please choose file(s) first.");
@@ -308,14 +327,111 @@
             renderList();
         }
 
-        function renderList() {
+
+        async function renderList() {
             const resultList = document.getElementById("result");
             resultList.innerHTML = "";
 
             uploadedFiles.forEach((file, index) => {
                 const li = document.createElement("li");
-                li.textContent = `File: ${file.fileName}, Size: ${file.size} bytes  `;
+                li.textContent = `File: ${file.fileName}`;
 
+                if(file.fileName.includes(".png") || file.fileName.includes(".jpg")){
+                    let editbutton = document.createElement("button");
+                    editbutton.textContent = "Edit Image";
+                    editbutton.onclick = () => {
+                        const dialog = document.getElementById("imageDialog");
+                        dialog.showModal();          // open dialog
+                        let closeBtn = document.getElementById("closeDialog");
+                        closeBtn.addEventListener("click", () => {
+                            dialog.close();              // close dialog
+                        });
+
+                        const canvas = document.getElementById("canvas");
+                        const ctx = canvas.getContext("2d");
+
+                        const img = new Image();
+                        img.src = "https://localhost:7107/"+file.fileName; // your test image
+                        // img.onload = () => ctx.drawImage(img, 0, 0);
+                         img.onload = () => {
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            ctx.drawImage(img, 0, 0);
+                        };
+                        let startX, startY, endX, endY;
+                        let isDrawing = false;
+
+                        // mouse down = start drawing
+                        canvas.addEventListener("mousedown", (e) => {
+                          const rect = canvas.getBoundingClientRect();
+                          startX = e.clientX - rect.left;
+                          startY = e.clientY - rect.top;
+                          isDrawing = true;
+                        });
+
+                        // mouse move = update preview box
+                        canvas.addEventListener("mousemove", (e) => {
+                          if (!isDrawing) return;
+                          const rect = canvas.getBoundingClientRect();
+                          endX = e.clientX - rect.left;
+                          endY = e.clientY - rect.top;
+
+                          ctx.drawImage(img, 0, 0); // redraw original image
+                          ctx.strokeStyle = "red";
+                          ctx.lineWidth = 2;
+                          ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+                        });
+
+                        // mouse up = finish box
+                        canvas.addEventListener("mouseup", (e) => {
+                          isDrawing = false;
+                        });
+
+                        // send crop request to backend
+                        document.getElementById("cutBtn").onclick = async () => {
+                           const x =Math.trunc(Math.min(startX, endX));
+                           const y =Math.trunc(Math.min(startY, endY));
+                           const w =Math.trunc(Math.abs(endX - startX));
+                           const h =Math.trunc(Math.abs(endY - startY));
+                            const cropData = {
+                                 x: x,
+                                 y: y,
+                                 w: w,
+                                 h: h,
+                                name : file.fileName,
+                                file : file.file
+                            };
+                             console.log(cropData);
+                            try {
+                                  const res = await fetch('/Image/Crop', {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify(cropData)
+                                });
+
+                                if (!res.ok) {
+                                    alert("Error saving product: " + res.status);
+                                    return;
+                                }
+
+								file.fileName = (await res.text());
+
+                                alert("Image Clip Suucess");
+                                dialog.close();              // close dialog
+                                renderList();
+                            } catch (err) {
+                                console.error(err);
+                                alert("Network error");
+                            }
+                        };
+                     };
+                     li.appendChild(editbutton);
+                     
+                };
+
+                    
                 const cancelBtn = document.createElement("button");
                 cancelBtn.textContent = "Cancel";
                 cancelBtn.className = "cancel";
@@ -323,11 +439,12 @@
                     uploadedFiles.splice(index, 1); // remove from list
                     renderList();
                 };
-
                 li.appendChild(cancelBtn);
                 resultList.appendChild(li);
             });
-        }
+       };
+
 
     </script>
 </section>
+

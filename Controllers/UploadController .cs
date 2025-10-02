@@ -14,12 +14,12 @@ public class UploadController : ControllerBase
         var pathname = "";
         foreach (var file in files)
         {
-            if (file.Length > 25*1024*1024)
+            if (file.Length > 25*1024*1024*8)
             {
                 continue;
             }
             pathname = file.FileName.Split(".")[0] + "_" + DateTime.Now.Ticks.ToString() + "." + file.FileName.Split(".")[1];
-            var savePath = Path.Combine(@"D:\VisualStudio\WebApplication2\wwwroot", pathname);
+            var savePath = Path.Combine(@"D:\VisualStudio\WebApplication2\FilePath", pathname);
 
             using (var stream = new FileStream(savePath, FileMode.Create))
             {
@@ -29,7 +29,7 @@ public class UploadController : ControllerBase
             results.Add(new
             {
                 fileName = pathname,
-                size = file.Length
+                file = file
             });
         }
 

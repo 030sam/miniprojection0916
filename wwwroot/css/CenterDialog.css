@@ -1,0 +1,10 @@
+﻿.imageDialog {
+    position: fixed; /* Keep it in viewport */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for own width/height */
+    padding: 20px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
